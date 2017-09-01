@@ -1,11 +1,25 @@
-<form class="" action="/" method="post">
-  <input type="text" name="username" value="" placeholder="Username">
-  <input type="password" name="password" value="" placeholder="Password">
-  <button type="submit" name="button">Login</button>
-</form>
-{{#message}}
-  {{.}}
-{{/message}}
-OR
+<nav>
+    <a href="/create">Create a New Fleet</a>
+    <a href="/user/{{name}}"></a>
+    <a href="/logout">Logout</a>
 
-<a href="/signup">Signup</a>
+
+</nav>
+<h1>the home page, should show all messages</h1>
+
+
+
+
+
+{{#allMessages}}
+
+<h1>hello {{username}} </h1>
+
+<div class="messagePost">
+
+
+    <p>Text: {{text}}</p>
+    <p>fleeted by: {{user.dataValues.username}}  </p>
+
+</div>
+{{/allMessages}}

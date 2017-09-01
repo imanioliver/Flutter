@@ -34,14 +34,17 @@ module.exports = function(sequelize, DataTypes) {
 
     Message.associate = function(models){
          Message.belongsTo(models.User, {
-             foreignKey: 'userId', //if message belongs to user, the foreign
+             as: 'user',
+             foreignKey: 'userId' //if message belongs to user, the foreign
             //  otherKey: 'userId',
-            //  through: 'likes'
-         })
 
+        });
+
+        Message.hasMany(models.Like, {
+            as: 'likes',
+            foreignKey: 'messageId',
+        });
      };
-
-
 
   return Message;
 };

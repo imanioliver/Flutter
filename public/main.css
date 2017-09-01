@@ -10,3 +10,10 @@ button{
 form {
     background-color: #A4D555;
 }
+
+
+.messagePost{
+    border: solid;
+    margin: 10px;
+    border-width: thin;
+}

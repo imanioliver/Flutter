@@ -1,7 +1,9 @@
 const express = require("express");
-const User = require("../models/index").User;
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const Message = require("../models/index").Message;
+const User = require("../models/index").User;
+const Like = require("../models/index").Like;
 
 const passport = require('passport');
 
@@ -11,23 +13,36 @@ const isAuthenticated = function (req, res, next) {
         return next()
     }
     req.flash('error', 'You have to be logged in to access the page.')
-    res.redirect('/')
+    res.redirect('/entry')
 };
 
-
-router.get("/", function(req, res) {
-    res.render("home", {
-        messages: res.locals.getMessages()
+router.get("/", isAuthenticated, function(req, res) {
+    // console.log(req.user);
+    Message.findAll({
+        include: [
+            {
+                model: User,
+                as: "user"
+            }
+        ]
+    })
+    .then(function(messages) {
+        console.log(messages);
+        res.render("home", {messages: res.locals.getMessages(), allMessages:messages});
+    })
+    .catch(function(err) {
+        console.log(err);
+        res.redirect("/")
     });
 });
 
-router.post('/', passport.authenticate('local', {
-    successRedirect: '/user',
-    failureRedirect: '/',
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/entry',
     failureFlash: true
 }));
 
-router.get("/signup", function(req, res) {
+router.get("/entry", function(req, res) {
     res.render("entry");
 });
 
@@ -37,16 +52,14 @@ router.post("/signup", function(req, res) {
     let password = req.body.passwordHash
     let name = req.body.name
 
-    console.log(password);
-
     if (!username || !password) {
         req.flash('error', "Please, fill in all the fields.")
-        res.redirect('entry')
+        res.redirect('/entry')
     }
 
     let salt = bcrypt.genSaltSync(10)
     let hashedPassword = bcrypt.hashSync(password, salt)
-    console.log(hashedPassword, "hashed");
+
     let newUser = {
         username: username,
         displayname: displayname,
@@ -57,15 +70,10 @@ router.post("/signup", function(req, res) {
 
     User.create(newUser).then(function() {
         res.redirect('/')
-        console.log(password);
     }).catch(function(error) {
         req.flash('error', "Please, choose a different username.")
-        res.redirect('/signup')
+        res.redirect('/entry')
     });
-});
-
-router.get("/user", isAuthenticated, function(req, res) {
-    res.render("home", {username: ''});
 });
 
 router.get("/logout", function(req, res) {
@@ -73,6 +81,23 @@ router.get("/logout", function(req, res) {
     res.redirect("/");
 });
 
+router.get("/create", isAuthenticated, function(req, res){
+    res.render("create");
+});
+
+router.post("/create", function(req, res){
+    // console.log(req.user);
+
+    Message.create({
+            title: req.body.title,
+            text: req.body.text,
+            userId: req.user.id
+        })
+    .then(function(data){
+        // console.log(data);
+      res.redirect("/");
+    });
+});
 
 
 module.exports = router;
