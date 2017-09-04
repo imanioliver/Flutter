@@ -2,24 +2,23 @@
     <a href="/create">Create a New Fleet</a>
     <a href="/user/{{name}}"></a>
     <a href="/logout">Logout</a>
-
-
 </nav>
 <h1>the home page, should show all messages</h1>
-
-
-
+<h1>hello {{username}} </h1>
 
 
 {{#allMessages}}
-
-<h1>hello {{username}} </h1>
-
 <div class="messagePost">
-
-
     <p>Text: {{text}}</p>
-    <p>fleeted by: {{user.dataValues.username}}  </p>
+    <p>Likes: {{likes.length}}</p>
+
+    <p> <strong>{{user.dataValues.displayname}}</strong> {{user.dataValues.username}}  </p>
+    <form action="/like/{{id}}" method="post">
+        <button type="submit">Like</button>
+    </form>
+    <button type="button"><a href="/message/{{id}}">See Message</a></button> <br>
+    <button type="button"><a href="/delete/{{id}}">Delete Message</a></button>
+
 
 </div>
 {{/allMessages}}

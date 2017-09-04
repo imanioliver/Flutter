@@ -1,10 +1,32 @@
-
+<nav>
+    <a href="/">Home</a>
+    <a href="/create">Create</a>
+    <a href="/user/{{name}}"></a>
+    <a href="/logout">Logout</a>
+</nav>
 
 <h1>Create A New Fleet </h1>
 
 <form class="newMessage" action="/create" method="post">
-    <input type="text" name="title" value="" placeholder="Title">
-    <input type="text" name="text" value="" placeholder="Type your message here">
+Type your new fleet here: <textarea name="name" rows="8" name="text" cols="80" placeholder="Type your message here"></textarea>
+ <!-- <input type="text" name="text" value="" placeholder="Type your message here"> -->
     <button type="submit" name="button">Fleet It</button>
 
 </form>
+
+
+{{#allMessages}}
+<div class="messagePost">
+    <p>Text: {{text}}</p>
+    <p>Likes: {{likes.length}}</p>
+
+    <p> <strong>{{user.dataValues.displayname}}</strong> {{user.dataValues.username}}  </p>
+    <form action="/like/{{id}}" method="post">
+        <button type="submit">Like</button>
+    </form>
+    <button type="button"><a href="/message/{{id}}">See Message</a></button>
+    <button type="button"><a href="/delete/{{id}}">Delete</a></button>
+
+
+</div>
+{{/allMessages}}
