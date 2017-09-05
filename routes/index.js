@@ -29,17 +29,28 @@ router.get("/", isAuthenticated, function(req, res) {
                 as: "likes"
             }
         ]
-    })
+    },
+    {order: [['createdAt', 'DESC']]})
     .then(function(data) {
         // console.log(data);
-        let currentUser = req.user.id;
+        // let currentUser;
+        // console.log('Message id here for all: ', Message.userId);
+        // console.log("everything on Message: ", data);
+        // console.log('the current user: ', req.user.id);
+        // console.log("FIRST CURRENTUSER: " , currentUser);
+        // console.log("evaluate message and user id", req.user.id===Message.dataValues.userId);
+        // if (req.user.id===Message.dataValues.userId){
+        //     currentUser = true,
+        // console.log(currentUser);
+        // res.render("home", {messages:res.locals.getMessages(), currentUser:currentUser})
+        //
+        // } else {
+        //     currentUser = false,
+        res.render("home", {messages: res.locals.getMessages(), allMessages:data})
+        // }
 
-        res.render("home", {messages: res.locals.getMessages(), allMessages:data
 
-            // , messageID: message.dataValues.id
-            // ,messageCount:
-        }
-        );
+        // );
     })
     // .then(function(likeCount){
     //     Likes.findAll({
@@ -51,7 +62,7 @@ router.get("/", isAuthenticated, function(req, res) {
     .catch(function(err) {
         console.log(err);
 
-        res.redirect("/")
+        res.send("error")
     });
 });
 
@@ -124,12 +135,12 @@ router.post("/create", function(req, res){
     // console.log(req.user);
 
     Message.create({
-            text: req.body.text,
-            userId: req.user.id
-        })
+        text: req.body.text,
+        userId: req.user.id
+    })
     .then(function(data){
-        console.log(data);
-      res.redirect("/");
+        // console.log(data);
+        res.redirect("/");
     });
 });
 
@@ -175,8 +186,37 @@ router.post("/viewOne/:id", function(req, res){
     })
 });
 
+router.get("/message/:id", function(req, res){
+
+    Message.findOne({
+        where: {
+            id: req.params.id
+        }
+    }, {
+        include: [
+            {
+                model: User,
+                as: "user"
+            },
+            {
+                model:Like,
+                as: "likes"
+            }
+        ]
+    })
+    .then(function(data){
+        console.log('the User id on the message: ', data.dataValues.userId);
+        console.log("the current user's id is: ", req.user.id ) ;
+        let bool = (data.dataValues.userId === req.user.id)
+
+        res.render("oneMessage", {oneMessage:data, canDelete:bool})
+
+    })
+});
+
 
 router.get("/delete/:id", function (req, res){
+
     Like.destroy({
         where: {
             messageId: req.params.id
@@ -188,7 +228,7 @@ router.get("/delete/:id", function (req, res){
                 id: req.params.id
             }
         })
-        console.log(data);
+        // console.log(data);
         res.redirect("/")
     });
 })

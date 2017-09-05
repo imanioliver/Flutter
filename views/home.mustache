@@ -9,15 +9,28 @@
 
 {{#allMessages}}
 <div class="messagePost">
-    <p>Text: {{text}}</p>
-    <p>Likes: {{likes.length}}</p>
 
-    <p> <strong>{{user.dataValues.displayname}}</strong> {{user.dataValues.username}}  </p>
-    <form action="/like/{{id}}" method="post">
-        <button type="submit">Like</button>
-    </form>
-    <button type="button"><a href="/message/{{id}}">See Message</a></button> <br>
-    <button type="button"><a href="/delete/{{id}}">Delete Message</a></button>
+
+    <main class="creatorAndText">
+        <p> <strong>{{user.dataValues.displayname}}</strong> @{{user.dataValues.username}}  </p>
+        <p>Text: {{text}}</p>
+
+    </main>
+    <aside class="buttons">
+        <form action="/like/{{id}}" method="post">
+            <button type="submit">Like</button>
+        </form>
+        <button type="button"><a href="/message/{{id}}">See Message</a></button> <br>
+        {{#canDelete}}<button type="button"><a href="/delete/{{id}}">Delete Message</a></button>{{/canDelete}}
+
+    </aside>
+    <footer>
+        <p>Likes: {{likes.length}}</p>
+        <p>Created On: {{createdAt}} </p>
+
+    </footer>
+
+
 
 
 </div>

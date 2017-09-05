@@ -2,7 +2,26 @@
 
 
 <header>
+
 </header>
 
 <article class="">
+
+
+    {{#oneMessage}}
+    <div class="messagePost">
+        <p>Text: {{text}}</p>
+        <p>Likes: {{likes.length}}</p>
+        <p>Created At: {{createdAt}} </p>
+
+        <p> <strong>{{user.dataValues.displayname}}</strong> {{user.dataValues.username}}  </p>
+        <!-- <form action="/likeOnMessage/{{id}}" method="post">
+            <button type="submit">Like</button>
+        </form> -->
+        <button type="button"><a href="/message/{{id}}">See Message</a></button> <br>
+        {{#canDelete}}<button type="button"><a href="/delete/{{id}}">Delete Message</a></button>{{/canDelete}}
+
+
+    </div>
+    {{/oneMessage}}
 </article>

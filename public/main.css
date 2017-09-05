@@ -1,19 +1,53 @@
 html{
     /*background-image:url(../images/butterfly.jpg);*/
-    background-color: #FFF7C0;
+    background-color: #E4EBCA;
 }
-
+/*
 button{
     background-color: #FF5992;
 }
 
 form {
     background-color: #A4D555;
+}*/
+
+body {
 }
 
+nav{
+
+background-color: #D53011;
+}
 
 .messagePost{
-    border: solid;
-    margin: 10px;
+    border: none;
+    border-radius: 15px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 200px;
+    margin-right: 200px;
     border-width: thin;
+    display: flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#F6Ab02, #D53011); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#F6Ab02, #D53011); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#F6Ab02, #D53011); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#F6Ab02, #D53011); /* Standard syntax */
+
+
+}
+
+aside {
+
+    flex-basis: 103%;
+    padding: 10px;
+    background-color: #F66405;
+    /*position: relative;*/
+    /*top:-60px;*/
+    align-items: flex-end;
+    padding: 15px;
 }
