@@ -158,22 +158,22 @@ router.post("/like/:id", function(req, res){
         res.redirect("/");
     })
 
+    // Like.findOrCreate({
+    //
+    //     where: {
+    //         userId: req.user.id,
+    //         messageId: id
+    //     }
+    // })
+    // .then(function(data){
+    //     // console.log(data);
+    //     res.redirect("/");
+    // })
 
-    //you should do a req.params.id to send to the like page
+
+
 })
 
-// router.post("/viewOne/:id", function(req, res){
-//     let id= req.params.id;
-//
-//     Message.findById(req.params.id)
-//
-//     .then(function(data){
-//
-//         res.render("oneMessage");
-//
-//     })
-//
-// };
 
 router.post("/viewOne/:id", function(req, res){
     let id= req.params.id;
@@ -205,9 +205,13 @@ router.get("/message/:id", function(req, res){
         ]
     })
     .then(function(data){
+            console.log(data);
         console.log('the User id on the message: ', data.dataValues.userId);
         console.log("the current user's id is: ", req.user.id ) ;
+
         let bool = (data.dataValues.userId === req.user.id)
+
+        // User.findById({id:})
 
         res.render("oneMessage", {oneMessage:data, canDelete:bool})
 
